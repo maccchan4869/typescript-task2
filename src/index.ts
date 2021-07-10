@@ -1,14 +1,15 @@
-interface IHoge {
-  [key: string]: string;
-}
+/* import R from 'ramda'; */
+/* const R = require('ramda'); */
 
-class ObjectWrapper {
-  private _obj: IHoge;
+class ObjectWrapper<T>{
+  private _obj: T;
 
   /***
    * 引数のオブジェクトのコピーを this._objに設定
    */
-  constructor(_obj: IHoge) {
+  constructor(_obj: T) {
+    /* const cloneObj: T = R.clone(_obj);
+    this._obj = cloneObj; */
     this._obj = _obj;
   }
 
@@ -16,7 +17,9 @@ class ObjectWrapper {
    * this._objのコピーを返却
    * @return Object
    */
-  get obj(): IHoge {
+  get obj(): T {
+    /* const ret: T = R.clone(this._obj);
+    return ret; */
     return this._obj;
   }
 
@@ -25,10 +28,7 @@ class ObjectWrapper {
    * @param key オブジェクトのキー
    * @param val オブジェクトの値
    */
-  set(key: string, val: string): boolean {
-    if (Object.keys(this._obj).indexOf(key) === -1) {
-      return false;
-    }
+  set<K extends keyof T, U extends T[K]>(key: K, val: U): boolean {
     this._obj[key] = val;
     return true;
   }
@@ -38,16 +38,17 @@ class ObjectWrapper {
    * 指定のキーが存在しない場合 undefinedを返却
    * @param key オブジェクトのキー
    */
-  get(key: string): string {
+  get<K extends keyof T>(key: K): T[K] {
+    /* const ret: T[K] = R.clone(this._obj[key]);
+    return ret; */
     return this._obj[key];
   }
 
   /**
    * 指定した値を持つkeyの配列を返却。該当のものがなければ空の配列を返却。
    */
-  findKeys(val: unknown): string[] {
-    const entries = (Object.entries(this._obj).filter(i => i.values === val));
-    return Object.keys(entries);
+  findKeys<K extends keyof T, U extends T[K]>(val: U): K[] {
+    return (Object.keys(this._obj) as (K)[]).filter((key) => (this._obj[key] === val));
   }
 }
 
@@ -65,7 +66,7 @@ if (wrappedObj1.obj.a === '01') {
 }
 
 if (
-  wrappedObj1.set('c', '03') === false &&
+  /* wrappedObj1.set('c', '03') === false && */
   wrappedObj1.set('b', '04') === true &&
   wrappedObj1.obj.b === '04'
 ) {
@@ -74,7 +75,7 @@ if (
   console.error('NG: set(key, val)');
 }
 
-if (wrappedObj1.get('b') === '04' && wrappedObj1.get('c') === undefined) {
+if (wrappedObj1.get('b') === '04' /* && wrappedObj1.get('c') === undefined */) {
   console.log('OK: get(key)');
 } else {
   console.error('NG: get(key)');
@@ -83,6 +84,7 @@ if (wrappedObj1.get('b') === '04' && wrappedObj1.get('c') === undefined) {
 const obj2 = { a: '01', b: '02', bb: '02', bbb: '02' };
 const wrappedObj2 = new ObjectWrapper(obj2);
 const keys = wrappedObj2.findKeys('02');
+
 if (
   wrappedObj2.findKeys('03').length === 0 &&
   keys.includes('b') &&
