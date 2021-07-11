@@ -1,5 +1,4 @@
-/* import R from 'ramda'; */
-/* const R = require('ramda'); */
+const R = require('ramda');
 
 class ObjectWrapper<T>{
   private _obj: T;
@@ -8,9 +7,8 @@ class ObjectWrapper<T>{
    * 引数のオブジェクトのコピーを this._objに設定
    */
   constructor(_obj: T) {
-    /* const cloneObj: T = R.clone(_obj);
-    this._obj = cloneObj; */
-    this._obj = _obj;
+    const cloneObj: T = R.clone(_obj);
+    this._obj = cloneObj;
   }
 
   /**
@@ -18,9 +16,8 @@ class ObjectWrapper<T>{
    * @return Object
    */
   get obj(): T {
-    /* const ret: T = R.clone(this._obj);
-    return ret; */
-    return this._obj;
+    const ret: T = R.clone(this._obj);
+    return ret;
   }
 
   /**
@@ -39,9 +36,8 @@ class ObjectWrapper<T>{
    * @param key オブジェクトのキー
    */
   get<K extends keyof T>(key: K): T[K] {
-    /* const ret: T[K] = R.clone(this._obj[key]);
-    return ret; */
-    return this._obj[key];
+    const ret: T[K] = R.clone(this._obj[key]);
+    return ret;
   }
 
   /**

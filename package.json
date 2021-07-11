@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/maccchan4869/typescript-task2#readme",
   "devDependencies": {
+    "@types/ramda": "^0.27.44",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.5",
     "webpack": "^5.44.0",
@@ -26,6 +27,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
-    "ramda": "^0.27.1"
+    "ramda": "^0.27.1",
+    "ts-toolbelt": "^6.15.5"
   }
 }
