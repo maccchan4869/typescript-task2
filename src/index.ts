@@ -43,8 +43,8 @@ class ObjectWrapper<T>{
   /**
    * 指定した値を持つkeyの配列を返却。該当のものがなければ空の配列を返却。
    */
-  findKeys<K extends keyof T, U extends T[K]>(val: U): K[] {
-    return (Object.keys(this._obj) as (K)[]).filter((key) => (this._obj[key] === val));
+   findKeys(val: T[keyof T]): (keyof T)[] {
+    return (Object.keys(this._obj) as (keyof T)[]).filter((key) => (this._obj[key] === val));
   }
 }
 
